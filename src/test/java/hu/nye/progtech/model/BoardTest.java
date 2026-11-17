@@ -50,6 +50,11 @@ class BoardTest {
     }
 
     @Test
+    void findVehicleShouldReturnNullForUnknownId() {
+        assertNull(board.findVehicle('X'));
+    }
+
+    @Test
     void withVehicleMovedShouldMoveOnlyTheGivenVehicle() {
         Board moved = board.withVehicleMoved('A', 2);
 
@@ -57,5 +62,20 @@ class BoardTest {
         assertEquals(new Position(0, 4), moved.findVehicle('C').getStart());
         // az eredeti tábla nem változott
         assertEquals(new Position(2, 1), board.findVehicle('A').getStart());
+    }
+
+    @Test
+    void withMoveAppliedShouldMoveVehicleInTheGivenDirection() {
+        Board moved = board.withMoveApplied(new Move('C', Direction.DOWN, 2));
+
+        assertEquals(new Position(2, 4), moved.findVehicle('C').getStart());
+    }
+
+    @Test
+    void equalBoardsShouldHaveSameHashCode() {
+        Board copy = new Board(6, 12, board.getVehicles());
+
+        assertEquals(board, copy);
+        assertEquals(board.hashCode(), copy.hashCode());
     }
 }
