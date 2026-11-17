@@ -10,6 +10,11 @@ import java.util.Objects;
  */
 public final class Board {
 
+    /** A játékos célautójának betűjele. Jobbra kell kijutnia. */
+    public static final char PLAYER_CAR_ID = 'A';
+    /** A gép célautójának betűjele. Balra kell kijutnia. */
+    public static final char COMPUTER_CAR_ID = 'B';
+
     private final int rows;
     private final int columns;
     private final List<Vehicle> vehicles;
@@ -85,6 +90,14 @@ public final class Board {
             }
         }
         return new Board(rows, columns, newVehicles);
+    }
+
+    /**
+     * Visszaad egy új táblát, amelyen a lépés már végre van hajtva.
+     * A lépés szabályosságát ez a metódus nem ellenőrzi, azt a MoveValidator végzi.
+     */
+    public Board withMoveApplied(Move move) {
+        return withVehicleMoved(move.getVehicleId(), move.getDirection().getSign() * move.getSteps());
     }
 
     @Override
